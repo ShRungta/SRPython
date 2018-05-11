@@ -1,0 +1,50 @@
+﻿Last week I was told that customers who use booking links must go the DRH.com to reset their password. That the functionality on City Ledger Setup no longer works.
+
+The "Send Password Link" on the City Ledger Customer screen, should utilize the DRH.com Password Reset process and direct the user to DRH. Refer to Attachments section for the issue and resolution details.
+
+Currently when this link is selected, the password reset process for the Member site is used. The CL Customer is directed to the Member site, which attempts to login the user but displays the "NO ACCESS" message.
+The CL Customer examples are Customer Numbers 62672 and 30419.
+
+In current functionality email code ”MA_PSWD” is being used for “Send Password Link” on the CL Customer scree
+
+Updated the resolution in the attachment.  In summary, the email code used for this "Send Password Link" should be changed to “REN_PSWD,” 
+which was specifically implemented for DRH.com in ticket 47246 (Rentals Website: Account Login and Security Permissions).
+
+Per discussion with Elena and Batis, we will implement the left click functionality (similar to the CAT screen) where if you click anywhere on the record (screen shot A), 
+it will bring a list of options (screen shot B) the user can select from.  We can enlist all the available websites 
+where Login and Reset PW is available: 
+Members Area, Diamondresortsandhotels, Destination Xchange, Discover Diamond, and Monscierge (the box header should be labeled “Send Password Link”).  
+The list of websites should be configurable (Guy to recommend which table to store), and be tied to the respective RPID. 
+
+From Customer 360, when an Agent left clicks on Reset Password and selects a website, that will trigger the email to be sent to the email address on file.  
+In the email, the link will include the respective RPID (ex. Login.diamondresorts.com/reset/verify?{0}?Rpid={1}&id={2}) to redirect the user to the appropriate website 
+after resetting his/her password.
+
+
+Val    --> CL Customer Maintenance Screen (Cust Code : GROUPON Or ALMAX)
+https://dev.diamondresorts.com/pls/clysetup/cityledger_cust_maintenance.clcustomer_maintenance_html?pvCustomer_Num=41527
+Leinor --> Customer 360* --> Use Lead Id 222322 --> Customer Service -> CSM Dashboard
+https://dev.diamondresorts.com/pls/clysetup/search_frm?module=thecustomer
+
+
+
+
+Customer 360* --> Lead Information
+=====================================
+9 for ares_id , 6042389 for Lead_id
+Lead_id   222322
+**JS**
+thecustomer.js is main JS --> cust_leadinfo.js --Password changes moved to new js --> cust_password_maintenance.js ********
+**DB**
+CUSTOMER_LEADINFO_PKG.pkb ***
+thecustomer_html.prc
+
+Business Operations --> Accounting --> City Ledger --> CL Customer 
+===================================================================
+Customer Code : ALMAX or GROUPON
+
+cityledger_cust_maintenance.pkb ***
+clcustomer_maintenance.js
+cust_maint_tab.js
+
+**** CLYCSM ndabir / Vertisystem9-901
